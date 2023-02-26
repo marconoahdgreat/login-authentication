@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import {HashRouter, Route, Routes} from 'react-router-dom'
 import LoginForm from './SignUp'
 import Signup from './LoginForm'
 
@@ -8,12 +8,12 @@ import Signup from './LoginForm'
 function App() {
   return (
     <div className='main'>
-     <Router>
+     <HashRouter>
         <Routes>
           < Route path='/login' element={<Signup />} />
           <Route path='/' element={<LoginForm />} />
         </Routes>
-    </Router>
+    </HashRouter>
     </div>
   )
 }

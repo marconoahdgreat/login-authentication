@@ -3,6 +3,7 @@ import './App.css'
 import {HashRouter, Route, Routes} from 'react-router-dom'
 import LoginForm from './SignUp'
 import Signup from './LoginForm'
+import Success from './Success'
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           < Route path='/login' element={<Signup />} />
           <Route path='/' element={<LoginForm />} />
+          <Route path='/sucessfull' element={<Success />} />
         </Routes>
     </HashRouter>
     </div>

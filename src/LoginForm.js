@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import './App.css'
 import {Button, Divider, Form, Input, Typography } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
+import {FaGooglePlus} from 'react-icons/fa'
+
 
 import { supabase } from './client'
 
@@ -11,6 +13,7 @@ function LoginForm() {
         password: "",
     })
   console.log(formData)
+  const navigate = useNavigate();
 
     const handleChange = (event) => {
         setFormData((prevFormData) => {
@@ -22,7 +25,7 @@ function LoginForm() {
         })
 
 }
-const SubmitForm = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     try {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -36,10 +39,21 @@ const SubmitForm = async (e) => {
   alert (error)
 }
 }
+async function signInWithGoogle() {
+  const { data, session, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    
+    
+  })
+  
+}
+async function signout() {
+  const { error } = await supabase.auth.signOut()
+}
 
   return (
     <div>
-    <Form className='LoginForm'>
+    <Form className='LoginForm' onSubmitCapture={handleSubmit}>
         <Typography.Title className='welcome'>Log in</Typography.Title>
         <Form.Item 
           rules={[
@@ -61,16 +75,18 @@ const SubmitForm = async (e) => {
             <Input.Password placeholder='Enter your password'  name='password' 
                 onChange={handleChange}/>
         </Form.Item>
-        <Button className='loginBtn' type='primary' onClick={SubmitForm} block>
+        <Button className='loginBtn' type='primary' htmlType='Submit' block>
             Login
         </Button>
-        <Divider style={{bordercolor: "black"}}>or </Divider>
-        <Link to='/'>
-  <Button className='loginBtn' type='primary'  block>
-    Sign up?
-  </Button>
+        <Divider style={{bordercolor: "black"}}>  </Divider>
+       
+        
+        
+  <Button className='Google' type='primary' onClick={signInWithGoogle} block>
+            <FaGooglePlus className='FaGooglePlus'/>Continue with Google
+        </Button>
+   <Link to='/'><h5>No account yet? Sign up here.</h5>
   </Link>
-      
     </Form>
     </div>
   )

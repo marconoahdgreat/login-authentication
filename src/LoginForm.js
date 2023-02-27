@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 import {Button, Divider, Form, Input, Typography } from 'antd'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {FaGooglePlus} from 'react-icons/fa'
-
-
 import { supabase } from './client'
 
 function LoginForm() {
+let navigate = useNavigate();
     const [formData, setFormData] = useState({
         email:"",
         password: "",
+        
     })
   console.log(formData)
-  const navigate = useNavigate();
+ 
 
     const handleChange = (event) => {
         setFormData((prevFormData) => {
@@ -27,6 +27,7 @@ function LoginForm() {
 }
 const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
     const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
@@ -34,25 +35,35 @@ const handleSubmit = async (e) => {
         })
         if (error) throw error
         console.log(data)
+        navigate('/sucessfull')
        
 } catch (error) {
   alert (error)
 }
 }
+
 async function signInWithGoogle() {
+
   const { data, session, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
-    
-    
-  })
+    option: {
+      redirectTo: navigate('/sucessfull'),
+    },
+    })}
+ 
   
-}
+  
+
+
+
+
 async function signout() {
   const { error } = await supabase.auth.signOut()
 }
 
   return (
     <div>
+    
     <Form className='LoginForm' onSubmitCapture={handleSubmit}>
         <Typography.Title className='welcome'>Log in</Typography.Title>
         <Form.Item 

@@ -1,12 +1,23 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import vids from './images/beachVid.mp4'
+import './App.css'
+import { supabase } from './client'
 
 function Success() {
+    
+async function signout() {
+    const { error } = await supabase.auth.signOut()
+  }
+  
   return (
     <div>
-      YOU ARE SUCCESSFULLY LOGGED IN
-      <Link to='/sucessfull'>gere</Link>
+      <video autoPlay loop muted plays-inline>
+        <source src={vids} type="video/mp4" />
+      </video>
+      <h1 className='content'>YOU ARE LOGGED IN. WELCOME TO BORA :D</h1>
+    <button onClick={signout}>Signout</button>
     </div>
+
   )
 }
 
